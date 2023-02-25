@@ -30,6 +30,9 @@ const SignIn = () => {
         if(status.ok) {
             router.push(status.url);
         }
+        else if(status.error){
+            alert(status.error);
+        }
       }
     return ( 
         <div className='grid grid-cols-12 gap-0 px-80 py-36'>

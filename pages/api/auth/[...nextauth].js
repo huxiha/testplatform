@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-// import { prisma } from "@/lib/client";
+import { compare } from "bcryptjs";
 export const authOptions = {
 
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: "Credentials",
       
       async authorize(credentials, req) {
@@ -16,10 +15,14 @@ export const authOptions = {
                 name: credentials.name,
             }
         })
-        if(user.length === 0) {
+        if(!user) {
+            await prisma.$disconnect();
             throw new Error("no user found, please sign up");
         }
-        if(credentials.password !== user.password){
+
+        const checkpassword = await compare(credentials.password, user.password);
+        if(!checkpassword){
+            await prisma.$disconnect();
             throw new Error("password discorrect!");
         }
         await prisma.$disconnect();
@@ -30,6 +33,7 @@ export const authOptions = {
 
     })
   ],
+  secret:"Y2YUWE5MIfl6U03jN3ZJkHaedbh7xCGMW301o2DB6LU=",
   session: {
     strategy: "jwt",
   },

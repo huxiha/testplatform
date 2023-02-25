@@ -4,9 +4,11 @@ import { HiFingerPrint, HiOutlineUser } from "react-icons/hi"
 import Link from "next/link";
 import { useFormik } from 'formik';
 import { register_validate } from "../lib/validate"
+import {useRouter} from "next/router";
 
 const SignUp = () => {
     const [show, setShow] = useState({password: false,cPassword:false});
+    const router = useRouter();
     const formik = useFormik({
         initialValues: {
           username: '',
@@ -20,16 +22,30 @@ const SignUp = () => {
       });
 
       
-      async function onSubmit(values){
+      function onSubmit(values){
         const options = {
             method: "POST",
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify(values)
           };
-        const res = await fetch("http://localhost:3000/api/signup", options);
-        const data = await res.json();
+        fetch("http://localhost:3000/api/signup", options)
+        .then(
+                
+                (res) => {
+                    if(res.status === 200){
+                        router.push('/signIn');
+                    }else {
+                        return res.json()
+                    }
+                }
+            ).then(
+                (data) => {
+                    if(data)
+                        alert(data.message);
+                }
+            )
+        
       }
-         
 
     return ( 
         <div className='grid grid-cols-12 gap-0 px-80 py-36'>

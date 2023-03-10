@@ -6,10 +6,12 @@ import { TbReportAnalytics } from "react-icons/tb"
 import { AiFillBug, AiOutlineHome } from "react-icons/ai"
 import { SiKnowledgebase } from "react-icons/si"
 import { SlControlPlay } from "react-icons/sl"
+import Link from "next/link"
+import { useRouter } from "next/router"
  
-const NavItem = ({currentLabel, Icon}) => {
+const NavItem = ({currentLabel, Icon, routeName, currentRoute}) => {
     let className = "flex items-center px-6 py-2 my-3 space-x-6 text-xl tracking-wider text-white";
-    if(currentLabel === "HOME") {
+    if(routeName === currentRoute) {
         className += " bg-dark-200"
     }
     return (
@@ -17,7 +19,7 @@ const NavItem = ({currentLabel, Icon}) => {
         <div className={className}>
             <Icon />
             <div>
-                {currentLabel}
+                <Link href={routeName}>{currentLabel}</Link>
             </div>
             
         </div>
@@ -25,6 +27,9 @@ const NavItem = ({currentLabel, Icon}) => {
 }
 
 const SideBar = () => {
+
+    const {pathname} = useRouter();
+
     return ( 
         <div>
             <div className="flex items-center justify-between flex-grow px-6 py-4 font-bold text-white">
@@ -33,18 +38,18 @@ const SideBar = () => {
             
             </div>
             <div>
-                <NavItem currentLabel="HOME" Icon={AiOutlineHome}/>
-                <NavItem currentLabel="产品管理" Icon={FiDatabase}/>
-                <NavItem currentLabel="特性管理" Icon={MdOutlineFeaturedPlayList}/>
-                <NavItem currentLabel="任务管理" Icon={ BsListTask }/>
-                <NavItem currentLabel="资源管理" Icon={FiCpu}/>
-                <NavItem currentLabel="用例管理" Icon={BsJournalText}/>
-                <NavItem currentLabel="测试计划" Icon={BsPencilSquare}/>
-                <NavItem currentLabel="用例执行" Icon={SlControlPlay}/>
-                <NavItem currentLabel="测试报告" Icon={TbReportAnalytics}/>
-                <NavItem currentLabel="用户管理" Icon={FiUsers}/>
-                <NavItem currentLabel="bug管理" Icon={AiFillBug}/>
-                <NavItem currentLabel="知识库" Icon={SiKnowledgebase}/>
+                <NavItem currentLabel="HOME" Icon={AiOutlineHome} routeName="/" currentRoute={pathname}/>
+                <NavItem currentLabel="产品管理" Icon={FiDatabase} routeName="/productManage" currentRoute={pathname}/>
+                <NavItem currentLabel="特性管理" Icon={MdOutlineFeaturedPlayList} routeName="/featureManage" currentRoute={pathname}/>
+                <NavItem currentLabel="任务管理" Icon={ BsListTask } routeName="/taskManage" currentRoute={pathname}/>
+                <NavItem currentLabel="资源管理" Icon={FiCpu} routeName="/resourceManage" currentRoute={pathname}/>
+                <NavItem currentLabel="用例管理" Icon={BsJournalText} routeName="/testcaseManage" currentRoute={pathname}/>
+                <NavItem currentLabel="测试计划" Icon={BsPencilSquare} routeName="/testplanManage" currentRoute={pathname}/>
+                {/* <NavItem currentLabel="用例执行" Icon={SlControlPlay} routeName="/executeManage" currentRoute={pathname}/> */}
+                <NavItem currentLabel="测试报告" Icon={TbReportAnalytics} routeName="/testReport" currentRoute={pathname}/>
+                <NavItem currentLabel="用户管理" Icon={FiUsers} routeName="/userManage" currentRoute={pathname}/>
+                <NavItem currentLabel="bug管理" Icon={AiFillBug} routeName="/bugManage" currentRoute={pathname}/>
+                <NavItem currentLabel="知识库" Icon={SiKnowledgebase} routeName="/knowlegeManage" currentRoute={pathname}/>
 
             </div>
         </div>

@@ -4,16 +4,16 @@ import Head from 'next/head'
 import { useSession } from "next-auth/react"
 import { authOptions } from './api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth/next'
+import Testcase from '@/components/testcaseManage/Testcase'
 
-
-export default function Home() {
+export default function UserManage() {
 
   const { data: session } = useSession();
-  // console.log(session);
+
   return (
     <div className='h-screen '>
       <Head>
-        <title>Automated Test Platform</title>
+        <title>Automated Test Platform | User</title>
         <meta name="description" content="Automated test" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -24,7 +24,7 @@ export default function Home() {
         
         <div className='col-span-10'>
           <NavBar name={session.user.name}/>
-          <h2>Home Page</h2>
+          <Testcase />
         </div>
       </div>
         
@@ -45,8 +45,7 @@ export const getServerSideProps = async (context) => {
   
     return {
       props: {
-        session:JSON.parse(JSON.stringify(session))
-        
+        session:JSON.parse(JSON.stringify(session)),
       },
     };
   }
